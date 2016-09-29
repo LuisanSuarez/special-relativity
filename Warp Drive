@@ -1,0 +1,66 @@
+print 'Welcome! A spaceship will depart from Earth in search of life on a'\
+        " distant Exoplanet."\
+        " It's up to you to decide how fast the spaceship will move, how far "\
+        "away the planet is, and how fast it moves away from us. I'll let you"\
+        " know how long it takes for the spaceship to reach the planet from "\
+        "Earth's point of reference and for the astronauts"\
+        " in the spaceship's frame of reference."
+        
+print 'The speeds & distances you enter are relative to you (stationary observer)'
+print 'The spacecraft departs from your frame of reference'
+print 'Enter your speeds & distance as proportion of the speed of light '\
+    '(e.g.(-1,1) )'
+print 'The velocity of the spaceship must always be greater than that of the'\
+    ' planet.'
+print 'The distance between planets will always be positive. It can be as big'\
+    ' as you want.'
+print "And of course, no one can move faster than the speed of light :) "
+print 
+
+while True:
+    speed = float(raw_input('Speed of your spaceship: '))
+    if speed < -1 or speed > 1:
+        print 'Value unacceptable. Please try again'
+    else:
+        break
+
+#starting istance from the planet to the spaceship (and yourself)    
+distance = abs(float(raw_input('Distance to the planet you want to get to: ')))
+
+while True:
+    speed_planet = float(raw_input('How fast is the planet moving?: '))
+    if speed_planet >= speed or speed_planet <= -1:
+        print "The planet can't move faster or at the same speed than"\
+        " your spaceship (or you'll never reach it.) Make sure it's not" \
+        "moving at the speed of light either! Please try again."
+    else:
+        break
+print 
+
+v = speed
+u = speed_planet
+l = distance
+ 
+def g(v):    #lorentz factor
+    return 1/((1-v**2)**.5) #v is in proportion to c, so c^2 = 1
+    
+stationary_time = distance/(speed-speed_planet)
+                    
+#speed of the planet from the spaceship's F.o.R
+rel_velocity_planet = (u-v)/(1-(u*v)) #v is in proportion to c, so c^2 = 1
+
+#length contraction: lenght/gamma
+rel_distance = l/g(rel_velocity_planet)
+
+rel_time = rel_distance/abs(rel_velocity_planet)
+
+#Lorentz transformation: change in t' = gamma(time-(velocity*chg_in_dist)/c**2))
+#Hasta ahora, solo ajustada para un planeta destino estacionario
+rel_time2 = g(rel_velocity_planet)*(stationary_time-(v*l))
+
+print "Distance to the Exoplanet from Earth's frame of reference: ", l
+print "Time to destination from Earth's frame of reference:", stationary_time
+print 'Relative Velocity of Exoplanet: ', str(rel_velocity_planet)+('c')
+print "Distance to the Exoplanet from Spaceship's frame of reference: ", rel_distance
+print "Time from the spaceship's frame of reference:", rel_time
+print "Time from the spaceship's frame of reference 2:", rel_time2
