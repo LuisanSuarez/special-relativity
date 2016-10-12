@@ -1,0 +1,57 @@
+from math import sin, asin
+
+def magnitude(x=0,y=0,z=0):
+    return (x**2+y**2+z**2)**(.5)
+
+#SPACESHIP'S SPEED
+while True:
+    speed = float(raw_input('Speed of your spaceship: '))
+    if speed < -1 or speed > 1:
+        print 'Value unacceptable. Please try again'
+    else:
+        break
+
+#PLANET'S SPEED
+while True:
+    speed_planet_x = float(raw_input('How fast is the planet moving in the x'\
+    ' axis?: '))
+    speed_planet_y = float(raw_input('How fast is the planet moving in the y'\
+    ' axis?: '))
+    speed_planet = magnitude(speed_planet_x, speed_planet_y)
+    if speed_planet >= speed or speed_planet <= -1:
+        print "The planet can't move faster or at the same speed than"\
+        " your spaceship (or you'll never reach it.) Make sure it's not" \
+        "moving at the speed of light either! Please try again."
+    else:
+        break
+        
+#DISTANCE FROM SPACESHIP TO PLANET
+distance = abs(float(raw_input('Distance to the planet you want to get to: ')))
+
+a = speed_planet
+d = distance
+m = speed
+
+
+#Usando el ejemplo de Heinz (planeta) y Luisan(cohete) en cada esquina. 
+#Heinz se mueve sobre el eje x hacia la derecha, y Luisan se mueve en diagonal.
+#Mi programa asume que la velocidad de ambos en el eje x (speed(cos(x)) tiene
+#que ser la misma - si no nunca llega o lo rebasa. 
+#Eso significa que lo que me da el tiempo es cual es la velocidad de Luisan
+#en el eje y. Podriamos imaginarnos a los dos estacionarios, y ver solo a 
+#Luisan subiendo sobre el eje Y. 
+#La velocidad en Y será función de la velocidad de x - o cuanto 'combustible'
+#le queda para acelerar en y una vez llegada a la velocidad en X. 
+#Formalmente, speed**2 = speed*cos(alpha)**2 + speed*sin(alpha)**2
+#speed_planet = speed*cos(alpha)**2 - misma velocidad en x
+# RAIZ[(speed**2-speed_planet**2)/speed**2] = sin(alpha)
+# alpha = asin(RAIZ[(1-(speed_planet/speed)**2]
+
+alpha = asin((1-(a/m)**2)**.5)
+
+print alpha
+
+#time to planet 't'
+t = distance/(speed*(sin(alpha)))
+
+print t
